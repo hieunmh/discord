@@ -1,6 +1,12 @@
+import MainLayout from "./layouts/MainLayout"
+
 
 export default function Home() {
   return (
-    <div>home</div>
+    <MainLayout>
+      <div>
+        Home
+      </div>
+    </MainLayout>
   )
 }
