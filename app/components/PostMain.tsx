@@ -5,6 +5,7 @@ import { PostMainTypes } from "../type";
 import Link from "next/link";
 import { AiFillHeart } from "react-icons/ai";
 import { ImMusic } from 'react-icons/im';
+import PostMainLikes from "./PostMainLikes";
 
 export default function PostMain({ post }: PostMainTypes) {
     useEffect(() => {
@@ -64,6 +65,8 @@ export default function PostMain({ post }: PostMainTypes) {
                             width={90} src="/images/tiktok-logo-white.png" 
                         />
                     </div>
+
+                    <PostMainLikes post={post} />
                 </div>
             </div>
         </div>

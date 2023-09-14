@@ -4,6 +4,20 @@ export interface RandomUsers {
     image: string,
 }
 
+export interface Like {
+    id: string,
+    user_id: string,
+    post_id: string,
+}
+
+export interface Comment {
+    id: string,
+    user_id: string,
+    post_id: string,
+    text: string,
+    created_at: string,
+}
+
 export interface PostWithProfile {
     id: string,
     user_id: string,
@@ -23,6 +37,10 @@ export interface PostWithProfile {
 //  COMPONENT TYPE
 
 export interface PostMainTypes {
+    post: PostWithProfile
+}
+
+export interface PostLikesTypes {
     post: PostWithProfile
 }
 
