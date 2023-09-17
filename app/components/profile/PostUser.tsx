@@ -1,12 +1,15 @@
 import { PostUserTypes } from "@/app/type";
 import Link from "next/link";
 import { useEffect } from "react";
+
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { BiErrorCircle } from "react-icons/bi";
+import { SiSoundcharts } from "react-icons/si";
 
 
 export default function PostUser({ post }: PostUserTypes) {
     useEffect(() => {
-        const video = document.getElementById(`video-${post.id}`) as HTMLVideoElement;
+        const video = document.getElementById(`video${post.id}`) as HTMLVideoElement;
 
         setTimeout(() => {
             video.addEventListener('mouseenter', () => { video.play() });
@@ -25,11 +28,20 @@ export default function PostUser({ post }: PostUserTypes) {
             ) : (
                 <Link href={`/post/${post.id}/${post.user_id}`}>
                     <video src={post.video_url} 
-                        id={`video-${post.id}`} muted loop
+                        id={`video${post.id}`} muted loop
                         className="aspect-[3/4] object-cover rounded-md"
                     />
                 </Link>
             )}
+            <div className="px-1">
+                <p className="text-gray-700 text-[15px] pt-1 break-words">
+                    {post.text}
+                </p>
+                <div className="flex items-center gap-1 -ml-1 text-gray-600 font-bold text-xs">
+                    <SiSoundcharts size="15" /> 3%
+                    <BiErrorCircle size="16" />
+                </div>
+            </div>
         </div>
     )
 }
