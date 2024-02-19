@@ -7,7 +7,7 @@ import NavigationAction from "./navigation-action";
 import { Separator } from "../ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
 import { NavigationItem } from "./navigation-item";
-import { ModeToggle } from "../ModeToggle";
+import { ModeToggle } from "../mode-toggle";
 import { UserButton } from "@clerk/nextjs";
 
 

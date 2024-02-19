@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs"; 
-import { ThemeProvider } from "@/components/provider/ThemeProvider";
+import { ThemeProvider } from "@/components/provider/theme-provider";
 import { cn } from "@/lib/utils";
+import { ModalProvider } from "@/components/provider/modal-provider";
 
 const font = Open_Sans({ subsets: ["latin"] });
 
@@ -22,7 +23,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             defaultTheme="dark"
             enableSystem={false}
             storageKey="discord-theme"
-          >
+          > 
+            <ModalProvider />
             {children}
           </ThemeProvider>
         </body>
