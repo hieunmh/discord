@@ -1,5 +1,6 @@
 "use client";
 
+import qs from 'query-string';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { 
   DropdownMenu, 
@@ -19,6 +20,9 @@ import { ScrollArea } from "../ui/scroll-area";
 import { UserAvatar } from "../user-avatar";
 import { Check, Gavel, Loader2, MoreVertical, Shield, ShieldAlert, ShieldCheck, ShieldQuestion } from "lucide-react";
 import { useState } from "react";
+import { MemberRole } from "@prisma/client";
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 
 const roleIconMap = {
@@ -30,13 +34,57 @@ const roleIconMap = {
 
 export const MembersModal = () => {
 
+  const router = useRouter();
+
   const { isOpen, onClose, onOpen, type, data } = useModal();
 
   const [loadingId, setLoadingId] = useState("");
+  const isModalOpen = isOpen && type === "members";
 
   const { server } = data as { server: ServerWithMembersWithProfile };
 
-  const isModalOpen = isOpen && type === "members";
+  const onKick = async (memberId: string) => {
+    try {
+      setLoadingId(memberId);
+      const url = qs.stringifyUrl({
+        url: `/api/members/${memberId}`,
+        query: {
+          serverId: server?.id,
+        }
+      });
+
+      const res = await axios.delete(url);
+      router.refresh();
+      onOpen("members", { server: res.data });
+
+    } catch (error) {
+      
+    } finally {
+      setLoadingId("");
+    }
+  }
+
+  const onRoleChange = async (memberId: string, role: MemberRole) => {
+    try {
+      setLoadingId(memberId);
+      const url = qs.stringifyUrl({
+        url: `/api/members/${memberId}`,
+        query: {
+          serverId: server?.id,
+        }
+      });
+
+      const res = await axios.patch(url, { role });
+      router.refresh();
+      onOpen("members", { server: res.data });
+
+    } catch (error) {
+      
+    } finally {
+      setLoadingId("");
+    }
+  }
+
 
   return (
     <div>
@@ -52,7 +100,7 @@ export const MembersModal = () => {
           </DialogHeader>
  
           <ScrollArea className="mt-8 max-h-[420px]">
-            {server.members.map((member) => (
+            {server?.members.map((member) => (
               <div key={member.id} className="flex items-center gap-x-2 mb-6">
                 <UserAvatar src={member.profile.imageUrl} />
                 <div className="flex flex-col gap-y-1">
@@ -78,7 +126,7 @@ export const MembersModal = () => {
 
                           <DropdownMenuPortal>
                             <DropdownMenuSubContent>
-                              <DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => onRoleChange(member.id, "GUEST")}>
                                 <Shield className="h-4 w-4 mr-2" />
                                 Guest
                                 {member.role === "GUEST" && (
@@ -86,7 +134,7 @@ export const MembersModal = () => {
                                 )}
                               </DropdownMenuItem>
 
-                              <DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => onRoleChange(member.id, "MODERATOR")}>
                                 <ShieldCheck className="h-4 w-4 mr-2" />
                                 Moderator
                                 {member.role === "MODERATOR" && (
@@ -99,7 +147,7 @@ export const MembersModal = () => {
 
                         <DropdownMenuSeparator />
 
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => onKick(member.id)}>
                           <Gavel className="h-4 w-4 mr-2" />
                           Kick
                         </DropdownMenuItem>
