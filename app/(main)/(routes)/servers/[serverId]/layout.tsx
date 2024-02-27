@@ -31,8 +31,6 @@ const ServerIdLayout = async ({ children, params } : { children: React.ReactNode
       <main className="h-full md:pl-60">
         {children}
       </main>
-
-      {children}
     </div>
   )
 }
