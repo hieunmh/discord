@@ -11,8 +11,6 @@ interface ActionTooltipProps {
 
 const ActionTooltip: React.FC<ActionTooltipProps> = ({ label, children, side, align }) => {
 
-
-
   return (
     <TooltipProvider>
       <Tooltip delayDuration={50}>
@@ -21,7 +19,7 @@ const ActionTooltip: React.FC<ActionTooltipProps> = ({ label, children, side, al
         </TooltipTrigger>
 
         <TooltipContent side={side} align={align}>
-          <p className="font-semibold text-sm capitalize">{label.toLowerCase()}</p>
+          <p className="font-semibold text-sm capitalize">{label}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

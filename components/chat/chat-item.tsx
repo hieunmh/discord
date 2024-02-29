@@ -34,8 +34,8 @@ interface ChatItemProps {
 
 const roleIconMap = {
   "GUEST": null,
-  "MODERATOR": <ShieldCheck className="h-4 w-4 ml-2 text-indigo-500" />,
-  "ADMIN": <ShieldAlert className="h-4 w-4 ml-2 text-rose-500" />
+  "MODERATOR": <ShieldCheck className="h-4 w-4 ml-2 text-indigo-500 cursor-pointer" />,
+  "ADMIN": <ShieldAlert className="h-4 w-4 ml-2 text-rose-500 cursor-pointer" />
 }
 
 const formSchema = z.object({
@@ -122,7 +122,7 @@ export const ChatItem = ({ id, content, member, timestamp, fileUrl,
               <p onClick={onMemberClick} className="font-semibold text-sm hover:underline cursor-pointer">
                 {member.profile.name}
               </p>
-              <ActionTooltip label={member.role}>
+              <ActionTooltip label={member.role.toLowerCase()}>
                 {roleIconMap[member.role]}
               </ActionTooltip>
             </div>
@@ -197,14 +197,14 @@ export const ChatItem = ({ id, content, member, timestamp, fileUrl,
         >
           {canEditMessage && (
             <ActionTooltip label="Edit">
-              <Edit onClick={() => setIsEditing(true)} className="cursor-pointer ml-auto w-4 h-4 
+              <Edit onClick={() => setIsEditing(true)} className="cursor-pointer ml-auto w-[18px] h-[18px] 
                 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" 
               />
             </ActionTooltip>
           )}
           <ActionTooltip label="Delete">
             <Trash onClick={() => onOpen("deleteMessage", { apiUrl: `${socketUrl}/${id}`, query: socketQuery })}
-              className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 
+              className="cursor-pointer ml-auto w-[18px] h-[18px] text-zinc-500 
               hover:text-zinc-600 dark:hover:text-zinc-300 transition" 
             />
           </ActionTooltip>

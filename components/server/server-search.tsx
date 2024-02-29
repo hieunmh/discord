@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "../ui/command";
 import { useParams, useRouter } from "next/navigation";
+import { UserAvatar } from "../user-avatar";
 
 interface ServerSearchProps {
   data: {
@@ -13,6 +14,7 @@ interface ServerSearchProps {
       icon: React.ReactNode;
       name: string;
       id: string;
+      imageUrl?: string;
     }[] | undefined
   }[]
 }
@@ -78,10 +80,13 @@ export const ServerSearch = ({ data } : ServerSearchProps) => {
             
             return (
               <CommandGroup key={label} heading={label}>
-                  {data?.map(({ id, icon, name }) => {
+                  {data?.map(({ id, icon, name, imageUrl }) => {
                     return (
                       <CommandItem key={id} onSelect={() => onClick({ id, type })}>
                         {icon}
+                        {type === "member" && (
+                          <UserAvatar src={imageUrl} className="mr-2 h-8 w-8 md:h-8 md:w-8" />
+                        )}
                         <span>{name}</span>
                       </CommandItem>
                     )

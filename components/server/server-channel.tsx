@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { Channel, ChannelType, MemberRole, Server } from "@prisma/client";
-import { Edit, Hash, Lock, Mic, Trash, Video } from "lucide-react";
+import { Edit, Hash, Lock, Volume2, Trash, UserRoundPlus, Video } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import ActionTooltip from "../action-tooltip";
 import { ModalType, useModal } from "@/hooks/use-modal-store";
@@ -16,7 +16,7 @@ interface ServerChannelProps {
 
 const iconMap = {
   [ChannelType.TEXT]: Hash,
-  [ChannelType.AUDIO]: Mic,
+  [ChannelType.AUDIO]: Volume2,
   [ChannelType.VIDEO]: Video,
 }
 
@@ -71,7 +71,15 @@ export const ServerChannel = ({ channel, server, role } : ServerChannelProps) =>
         </div>
       )}
       {channel.name === "general" && (
-        <Lock className="ml-auto w-4 h-4 text-zinc-500 dark:text-zinc-400" />
+        <div className="ml-auto flex gap-x-2">
+          <ActionTooltip label="Create invite">
+            <UserRoundPlus onClick={() => onOpen("invite", { server })}
+              className="w-4 h-4 text-zinc-500 hover:text-zinc-600 
+              dark:text-zinc-400 dark:hover:text-zinc-300 transition" 
+            />
+          </ActionTooltip>
+          <Lock className="ml-auto w-4 h-4 text-zinc-500 dark:text-zinc-400" />
+        </div>
       )}
     </button>
   )
